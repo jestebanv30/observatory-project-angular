@@ -1,0 +1,64 @@
+<div class="container">
+  <!-- Formulario para agregar nueva categoría -->
+  <div class="add-category">
+    <h3>Add Category</h3>
+    <input
+      type="text"
+      [(ngModel)]="newCategoryName"
+      placeholder="Category Name"
+    />
+    <button (click)="addCategory()">Add Category</button>
+  </div>
+
+  <!-- Formulario para agregar nuevo featuredData -->
+  <div class="add-featured-data">
+    <h3>Add FeaturedData</h3>
+    <input
+      type="text"
+      [(ngModel)]="newFeaturedData.title"
+      placeholder="Title"
+    />
+
+    <label for="isMain">Is Main:</label>
+    <input type="checkbox" [(ngModel)]="newFeaturedData.is_main" />
+
+    <select [(ngModel)]="newFeaturedData.categoryId">
+      <option [ngValue]="null">Select Category</option>
+      <option *ngFor="let category of categories" [ngValue]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
+
+    <button (click)="addFeaturedData()">Add FeaturedData</button>
+  </div>
+
+  <!-- Mostrar featuredData principales -->
+  <div class="featured-main">
+    <h3>Main FeaturedData</h3>
+    <div class="featured-list">
+      <div class="featured-card" *ngFor="let item of isMainFeaturedData">
+        <h4>{{ item.title }}</h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- Listar categorías -->
+  <div class="category-list">
+    <h3>Categories</h3>
+    <div *ngFor="let category of categories" class="category-item">
+      <h4 (click)="showFeaturedDataByCategory(category.id)">
+        {{ category.name }}
+      </h4>
+    </div>
+  </div>
+
+  <!-- Mostrar featuredData por categoría seleccionada -->
+  <div class="featured-by-category" *ngIf="featuredDataByCategory.length > 0">
+    <h3>FeaturedData in Category</h3>
+    <div class="featured-list">
+      <div class="featured-card" *ngFor="let item of featuredDataByCategory">
+        <h4>{{ item.title }}</h4>
+      </div>
+    </div>
+  </div>
+</div>
