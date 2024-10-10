@@ -28,4 +28,10 @@ export class AppService {
   createFeaturedData(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/featuredData/`, data);
   }
+
+  getAllFeaturedDataByCategoryId(categoryId: number) {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/featuredData/category/${categoryId}`
+    );
+  }
 }

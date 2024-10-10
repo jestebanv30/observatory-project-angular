@@ -1,36 +1,55 @@
-.container {
-  padding: 20px;
+.carousel-container {
+  width: 100%;
+  overflow-x: auto; /* Asegúrate de que el overflow sea visible */
+  padding-bottom: 16px;
 }
 
-.add-category,
-.add-featured-data {
-  margin-bottom: 20px;
-}
-
-.featured-list {
+.carousel {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
+  gap: 16px; /* Separación entre tarjetas */
+  scroll-behavior: smooth;
+  padding-bottom: 16px; /* Espacio para la barra de scroll */
+}
+
+.carousel::-webkit-scrollbar {
+  height: 8px; /* Altura de la barra de desplazamiento */
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Color de la barra de desplazamiento */
+  border-radius: 4px; /* Esquinas redondeadas */
+}
+
+.carousel::-webkit-scrollbar-track {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Color de fondo de la pista de desplazamiento */
 }
 
 .featured-card {
-  width: 150px;
-  padding: 10px;
-  margin-right: 10px;
-  background-color: lightgray;
-  border-radius: 8px;
-  text-align: center;
+  width: 250px; /* Tamaño fijo de cada tarjeta */
+  flex: none; /* Evita que las tarjetas se redimensionen */
+  scroll-snap-align: center; /* Alineación de desplazamiento */
 }
 
-.category-item {
-  margin: 10px 0;
-  cursor: pointer;
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-.category-item h4:hover {
-  color: blue;
+.snap-x {
+  scroll-snap-type: x mandatory;
 }
 
-.featured-card h4 {
-  font-size: 16px;
+.snap-center {
+  scroll-snap-align: center;
 }

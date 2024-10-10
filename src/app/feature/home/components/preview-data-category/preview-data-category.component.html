@@ -1,0 +1,58 @@
+<div
+  *ngIf="categoryId !== null"
+  class="fixed left-0 top-0 z-[1055] h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+  id="categoryModal"
+  tabindex="-1"
+  aria-labelledby="categoryModalLabel"
+  aria-modal="true"
+  role="dialog"
+>
+  <div
+    class="relative flex min-h-[calc(100%-1rem)] w-auto items-center transition-all duration-300 ease-in-out mx-auto my-7 max-w-[500px]"
+  >
+    <div class="relative flex w-full flex-col rounded-lg bg-white shadow-lg">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between p-4 border-b">
+        <h5 class="text-xl font-medium" id="categoryModalLabel">
+          Datos de la Categoría
+        </h5>
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeModal()"
+          aria-label="Close"
+        >
+          <span class="text-gray-500"> &times; </span>
+        </button>
+      </div>
+
+      <!-- Modal body: Mostrar los datos de la categoría -->
+      <div class="p-4">
+        <div *ngIf="featuredDataByCategory.length > 0; else noData">
+          <div
+            *ngFor="let item of featuredDataByCategory"
+            class="p-4 mb-2 bg-gray-100 rounded shadow"
+          >
+            <h4 class="font-semibold text-gray-800">{{ item.name }}</h4>
+            <p class="text-sm text-gray-600">{{ item.data }}</p>
+            <small class="text-xs text-gray-500">{{ item.date | date }}</small>
+          </div>
+        </div>
+        <ng-template #noData>
+          <p class="text-sm text-gray-500">No hay datos en esta categoría.</p>
+        </ng-template>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="flex justify-end p-4 border-t">
+        <button
+          type="button"
+          (click)="closeModal()"
+          class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,64 +1,43 @@
-<div class="container">
-  <!-- Formulario para agregar nueva categoría -->
-  <div class="add-category">
-    <h3>Add Category</h3>
-    <input
-      type="text"
-      [(ngModel)]="newCategoryName"
-      placeholder="Category Name"
-    />
-    <button (click)="addCategory()">Add Category</button>
-  </div>
-
-  <!-- Formulario para agregar nuevo featuredData -->
-  <div class="add-featured-data">
-    <h3>Add FeaturedData</h3>
-    <input
-      type="text"
-      [(ngModel)]="newFeaturedData.title"
-      placeholder="Title"
-    />
-
-    <label for="isMain">Is Main:</label>
-    <input type="checkbox" [(ngModel)]="newFeaturedData.is_main" />
-
-    <select [(ngModel)]="newFeaturedData.categoryId">
-      <option [ngValue]="null">Select Category</option>
-      <option *ngFor="let category of categories" [ngValue]="category.id">
-        {{ category.name }}
-      </option>
-    </select>
-
-    <button (click)="addFeaturedData()">Add FeaturedData</button>
-  </div>
-
-  <!-- Mostrar featuredData principales -->
-  <div class="featured-main">
-    <h3>Main FeaturedData</h3>
-    <div class="featured-list">
-      <div class="featured-card" *ngFor="let item of isMainFeaturedData">
-        <h4>{{ item.title }}</h4>
+<div class="container mx-auto p-4 bg-gray-900 min-h-screen">
+  <!-- Carousel de FeaturedData -->
+  <div class="featured-carousel mb-10">
+    <h2 class="text-3xl font-semibold mb-4 text-gray-100">Datos generales</h2>
+    <div class="carousel-container">
+      <div
+        class="carousel flex space-x-4 overflow-x-auto no-scrollbar snap-x snap-mandatory"
+      >
+        <div
+          class="featured-card bg-gray-800 rounded-lg shadow-md p-6 transform transition-transform hover:scale-105 hover:shadow-lg min-w-[250px] snap-center"
+          *ngFor="let item of isMainFeaturedData"
+        >
+          <h4 class="text-lg font-medium text-blue-400 mb-2">
+            {{ item.name }}
+          </h4>
+          <p class="text-sm text-gray-400">{{ item.data }}</p>
+          <small class="text-xs text-gray-500">{{ item.date | date }}</small>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Listar categorías -->
-  <div class="category-list">
-    <h3>Categories</h3>
-    <div *ngFor="let category of categories" class="category-item">
-      <h4 (click)="showFeaturedDataByCategory(category.id)">
-        {{ category.name }}
-      </h4>
-    </div>
-  </div>
-
-  <!-- Mostrar featuredData por categoría seleccionada -->
-  <div class="featured-by-category" *ngIf="featuredDataByCategory.length > 0">
-    <h3>FeaturedData in Category</h3>
-    <div class="featured-list">
-      <div class="featured-card" *ngFor="let item of featuredDataByCategory">
-        <h4>{{ item.title }}</h4>
+  <!-- Categorías elegantes -->
+  <div class="category-section text-center mb-10">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-100">Categorías</h2>
+    <div class="categories flex flex-wrap justify-center gap-6">
+      <div
+        class="category-circle w-24 h-24 rounded-full bg-blue-600 text-white flex items-center justify-center cursor-pointer transform transition-transform hover:scale-110 hover:bg-purple-500"
+        *ngFor="let category of categories"
+        (click)="showFeaturedDataByCategory(category.id_category)"
+      >
+        <span class="text-base font-bold capitalize">{{ category.name }}</span>
       </div>
     </div>
   </div>
+
+  <!-- Modal de featuredData -->
+  <app-preview-data-category
+    *ngIf="selectedCategoryId !== null"
+    [categoryId]="selectedCategoryId"
+    (close)="onModalClose()"
+  ></app-preview-data-category>
 </div>

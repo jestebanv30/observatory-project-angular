@@ -3,28 +3,34 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../../../../core/service/app.service';
+import { PreviewDataCategoryComponent } from '../../components/preview-data-category/preview-data-category.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    HttpClientModule,
+    PreviewDataCategoryComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
   categories: any[] = [];
   featuredData: any[] = [];
-  selectedCategoryId: string | null = null;
+  selectedCategoryId: number | null = null;
   isMainFeaturedData: any[] = [];
   featuredDataByCategory: any[] = [];
 
   newCategoryName: string = '';
   newFeaturedData: {
-    title: string;
+    name: string;
     categoryId: string | null;
     is_main: boolean;
   } = {
-    title: '',
+    name: '',
     categoryId: null,
     is_main: false,
   };
@@ -39,6 +45,7 @@ export class DashboardComponent implements OnInit {
   // Cargar todas las categorías
   loadCategories(): void {
     this.appService.getAllCategories().subscribe((data) => {
+      console.log('Categorias cargadas: ', data);
       this.categories = data;
     });
   }
@@ -65,20 +72,22 @@ export class DashboardComponent implements OnInit {
 
   // Crear nuevo featuredData
   addFeaturedData(): void {
-    if (this.newFeaturedData.title) {
+    if (this.newFeaturedData.name) {
       this.appService.createFeaturedData(this.newFeaturedData).subscribe(() => {
-        this.newFeaturedData = { title: '', categoryId: null, is_main: false };
+        this.newFeaturedData = { name: '', categoryId: null, is_main: false };
         this.loadFeaturedData();
       });
     }
   }
 
-  // Mostrar featuredData por categoría seleccionada
-  showFeaturedDataByCategory(categoryId: string): void {
-    this.selectedCategoryId = categoryId;
-    this.featuredDataByCategory = this.featuredData.filter(
-      (item: any) => item.category && item.category.id === categoryId
-    );
+  // Funcion para abrir el modal y mostrar los featuredData de una categoria
+  showFeaturedDataByCategory(categoryId: number): void {
+    console.log('CategoryId: ', categoryId);
+    this.selectedCategoryId = categoryId; // Selecciona la categoria y abre el modal
+  }
+
+  onModalClose(): void {
+    this.selectedCategoryId = null; // Cierra el modal
   }
 
   // Verificar si un featuredData pertenece a una categoría
